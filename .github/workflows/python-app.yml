@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - catota  # Cambiar por tu apellido
+  pull_request:
+    branches:
+      - moreno
 
 jobs:
   test:
@@ -18,11 +21,26 @@ jobs:
       with:
         python-version: '3.9'
     
+    - name: Crear directorio de tests
+      run: mkdir -p tests
+    
     - name: Instalar dependencias
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Ejecutar tests
+    - name: Ejecutar tests unitarios
       run: |
-        pytest --cov --cov-report=term-missing
+        pytest tests/test_unit.py -v
+    
+    - name: Ejecutar tests de integración
+      run: |
+        pytest tests/test_integration.py -v
+    
+    - name: Ejecutar todos los tests con cobertura
+      run: |
+        pytest --cov=app --cov-report=term-missing --cov-report=html
+    
+    - name: Mostrar resumen
+      run: |
+        echo "✅ Todos los tests pasaron correctamente"
