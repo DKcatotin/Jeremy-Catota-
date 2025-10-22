@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask, import Flask, jsonify, request  # <-- La coma extra es un SyntaxError
 from typing import List, Dict, Optional
 
 app = Flask(__name__)
