@@ -1,11 +1,37 @@
-cat > .dockerignore << EOF
+# Archivos y directorios que Docker debe ignorar al construir la imagen
+
+# Entorno virtual de Python
 venv/
+env/
+ENV/
+
+# Cache de Python
 __pycache__/
 *.pyc
-.git/
-.github/
+*.pyo
+*.pyd
+.Python
+
+# Tests y coverage
 .pytest_cache/
 htmlcov/
 .coverage
+*.cover
+
+# Git
+.git/
+.gitignore
+.github/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# Documentación
 *.md
-EOF
+README.md
+
+# Sistema operativo
+.DS_Store
+Thumbs.db

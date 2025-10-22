@@ -1,46 +1,60 @@
+# Pipeline de Integración Continua (CI)
+# Este workflow se ejecuta automáticamente al hacer push a la rama especificada
+
 name: CI Pipeline
 
+# Configuración de triggers: cuándo se ejecuta el workflow
 on:
   push:
     branches:
-      - catota  # Cambiar por tu apellido
+      - catota  # IMPORTANTE: Cambiar por tu apellido
   pull_request:
     branches:
-      - moreno
+      - catota
 
+# Definición de trabajos (jobs) que se ejecutarán
 jobs:
   test:
+    # Sistema operativo donde se ejecutará el job
     runs-on: ubuntu-latest
     
     steps:
+    # Paso 1: Descargar el código del repositorio
     - name: Checkout código
       uses: actions/checkout@v3
     
+    # Paso 2: Configurar Python en la versión especificada
     - name: Configurar Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
     
+    # Paso 3: Crear directorio de tests si no existe
     - name: Crear directorio de tests
       run: mkdir -p tests
     
+    # Paso 4: Instalar las dependencias del proyecto
     - name: Instalar dependencias
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
+    # Paso 5: Ejecutar tests unitarios
     - name: Ejecutar tests unitarios
       run: |
         pytest tests/test_unit.py -v
     
+    # Paso 6: Ejecutar tests de integración
     - name: Ejecutar tests de integración
       run: |
         pytest tests/test_integration.py -v
     
+    # Paso 7: Ejecutar todos los tests con reporte de cobertura
     - name: Ejecutar todos los tests con cobertura
       run: |
         pytest --cov=app --cov-report=term-missing --cov-report=html
     
+    # Paso 8: Mostrar mensaje de éxito
     - name: Mostrar resumen
       run: |
         echo "✅ Todos los tests pasaron correctamente"
